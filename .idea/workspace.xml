@@ -4,21 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67f1f37-f711-4ba7-a083-f845fd4f81a0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/event/MessageEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/tools/CardTool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/tools/HttpTool.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/utils/WebSocketUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+    <list default="true" id="c67f1f37-f711-4ba7-a083-f845fd4f81a0" name="Changes" comment="Add new bot features and relevant dependencies&#10;&#10;Implemented MessageEvent, WebSocketUtils and a basic bot setup in Main.java. Added dependencies needed for bot functionality in the pom.xml. The changes extended the bot's capabilities, adding features like event handling and message displaying, and preparing it to process real-time events. Also added relevant custom utilities and tools.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/event/MessageEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/event/MessageEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/tools/CardTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/pigeonmuyz/jxremake/tools/CardTool.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,8 +68,17 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1701840872917</updated>
-      <workItem from="1701840874163" duration="12535000" />
+      <workItem from="1701840874163" duration="16933000" />
     </task>
+    <task id="LOCAL-00001" summary="Add new bot features and relevant dependencies&#10;&#10;Implemented MessageEvent, WebSocketUtils and a basic bot setup in Main.java. Added dependencies needed for bot functionality in the pom.xml. The changes extended the bot's capabilities, adding features like event handling and message displaying, and preparing it to process real-time events. Also added relevant custom utilities and tools.">
+      <option name="closed" value="true" />
+      <created>1701854630333</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1701854630333</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -88,6 +86,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Add new bot features and relevant dependencies&#10;&#10;Implemented MessageEvent, WebSocketUtils and a basic bot setup in Main.java. Added dependencies needed for bot functionality in the pom.xml. The changes extended the bot's capabilities, adding features like event handling and message displaying, and preparing it to process real-time events. Also added relevant custom utilities and tools." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add new bot features and relevant dependencies&#10;&#10;Implemented MessageEvent, WebSocketUtils and a basic bot setup in Main.java. Added dependencies needed for bot functionality in the pom.xml. The changes extended the bot's capabilities, adding features like event handling and message displaying, and preparing it to process real-time events. Also added relevant custom utilities and tools." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
