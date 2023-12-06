@@ -246,6 +246,136 @@ public class CardTool{
         return card;
     }
 
+    public static List<MultipleCardComponent> multiCommand(String[] command,String userID,String guildID,String server) {
+        try{
+            switch (command[0]){
+                //region 绑定服务器
+                case "绑定":
+                    if (guildID != null){
+                        JsonNode jn = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKChannelID="+guildID));
+                        if (jn.get("code").asInt() == 200){
+                            //频道已经绑定过了，走频道更新流程
+                            HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&server="+command[1]);
+                        }else{
+                            HttpTool.getData("http://api.muyz.xyz:25555/user/add?KOOKChannelID="+guildID+"&server="+command[1]);
+                        }
+                    }
+
+                    rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKID="+userID));
+                    if (rootNode.get("code").asInt() == 200){
+                        if (guildID != null){
+                            //用户已经绑定过了，走用户更新流程
+                            HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&server="+command[1]);
+                        }
+                    }else{
+                        //用户未绑定，走用户绑定流程
+                        HttpTool.getData("http://api.muyz.xyz:25555/user/add?KOOKID="+userID+"&server="+command[1]);
+                    }
+                    card.add(new CardBuilder()
+                            .setTheme(Theme.SUCCESS)
+                            .setSize(Size.LG)
+                            .addModule(new SectionModule(new PlainTextElement("绑定成功！"),null,null))
+                            .build());
+                    break;
+                //endregion
+                //region 功能开关
+                case "开启":
+                case "关闭":
+                    boolean status;
+                    if(command[0].equals("开启")){
+                        status = true;
+                    }else{
+                        status = false;
+                    }
+                    switch (command[1]){
+                        case "版本更新":
+                            if (guildID != null){
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&VersionUpdate="+status);
+                            }else{
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&VersionUpdate="+status);
+                            }
+                            break;
+                        case "开服监控":
+                            if (guildID != null){
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&ServerStatus="+status);
+                            }else{
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&ServerStatus="+status);
+                            }
+                            break;
+                        case "新闻监控":
+                            if (guildID != null){
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&News="+status);
+                            }else{
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&News="+status);
+                            }
+                            break;
+                        case "818监控":
+                            if (guildID != null){
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&forumPost="+status);
+                            }else{
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&forumPost="+status);
+                            }
+                            break;
+                        case "先锋测试":
+                            if (guildID != null){
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&bossRefresh="+status);
+                            }else{
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&bossRefresh="+status);
+                            }
+                            break;
+//                        case "云从事件":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&bossRefresh="+status);
+//                            }else{
+//                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&bossRefresh="+status);
+//                            }
+//                            break;
+//                        case "关隘预告":
+//                            if (guildID != null){
+//                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKChannelID="+guildID+"&bossRefresh="+status);
+//                            }else{
+//                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&bossRefresh="+status);
+//                            }
+                        case "手机通知":
+                            if (guildID != null){
+                                card.add(new CardBuilder()
+                                        .setTheme(Theme.DANGER)
+                                        .setSize(Size.LG)
+                                        .addModule(new SectionModule(new PlainTextElement("请使用私聊机器人尝试此开关，Bark的唯一提示符请不要发给除机器人以外的人，谨防不法之徒用来电信诈骗"),null,null))
+                                        .build());
+                            }else{
+                                rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKID="+userID));
+                                HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&BarkNotify="+status);
+                                if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("barkKey") != null){
+                                    HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&barkNotify="+status);
+                                }else{
+                                    card.add(new CardBuilder()
+                                            .setTheme(Theme.DANGER)
+                                            .setSize(Size.LG)
+                                            .addModule(new SectionModule(new PlainTextElement("请先绑定BarkKey"),null,null))
+                                            .build());
+                                }
+                            }
+                            break;
+                    }
+                    break;
+                //endregion
+                //region 状态查询
+                case "当前状态":
+                    if (guildID != null){
+                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKChannelID="+guildID));
+                    }else{
+                        rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKID="+userID));
+                    }
+                    break;
+                //endregion
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return card;
+    }
+
     static void initSaohua(){
         try{
             JsonNode rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/api/saohua"));
