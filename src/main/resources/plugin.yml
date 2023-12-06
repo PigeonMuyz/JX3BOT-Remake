@@ -1,0 +1,5 @@
+name: JX3BOT-Remake
+version: 1.0
+authors: ["PigeonMuyz"]
+api-version: 0.49.2
+main: io.github.pigeonmuyz.jxremake.Main
