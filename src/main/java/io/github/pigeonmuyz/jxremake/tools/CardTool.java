@@ -171,7 +171,7 @@ public class CardTool{
                     }
                     break;
                 //endregion
-                //region 楚天行侠相关实现
+                //region 楚天行侠
                 case "楚天行侠":
                 case "楚天社":
                 case "行侠":
@@ -238,6 +238,76 @@ public class CardTool{
                     }
                     break;
                 //endregion
+                //TODO: 日志未实现
+                //region 更新日志
+                case "日志":
+                case "更新日志":
+
+                    break;
+                //endregion
+                //TODO: 帮助未实现
+                //region 帮助
+
+                //endregion
+                //region 服务器开服查询
+                case "开服":
+                    initSaohua();
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/api/serverCheck?server="+server));
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            CardBuilder cb = new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG);
+
+                            if (rootNode.get("data").get("status").asInt() >0){
+                                cb.addModule(new HeaderModule(new PlainTextElement(server+" 当前状态：开启", false)));
+                            }else{
+                                cb.addModule(new HeaderModule(new PlainTextElement(server+" 当前状态：维护", false)));
+                            }
+
+                            cb.newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(DividerModule.INSTANCE)
+                                    .addModule(context);
+                            card.add(cb.build());
+                        break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
+                //region 公告
+                case "公告":
+                    initSaohua();
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/web/news/announce"));
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
             }
             imagesList.clear();
         }catch (Exception e){
@@ -262,8 +332,8 @@ public class CardTool{
                     }
 
                     rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKID="+userID));
-                    if (rootNode.get("code").asInt() == 200){
-                        if (guildID != null){
+                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("KOOKID") != null){
+                        if (guildID == null && rootNode.get("data").get(0).get("server") != null){
                             //用户已经绑定过了，走用户更新流程
                             HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&server="+command[1]);
                         }
@@ -348,6 +418,16 @@ public class CardTool{
                                 HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&BarkNotify="+status);
                                 if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("barkKey") != null){
                                     HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&barkNotify="+status);
+                                    rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKID="+userID));
+                                    CardBuilder cb = new CardBuilder()
+                                            .setTheme(Theme.SUCCESS)
+                                            .setSize(Size.LG);
+                                    if (rootNode.get("data").get(0).get("barkNotify").asBoolean()){
+                                        cb.addModule(new SectionModule(new PlainTextElement("Bark推送已经开启"),null,null));
+                                    }else{
+                                        cb.addModule(new SectionModule(new PlainTextElement("Bark推送已经关闭"),null,null));
+
+                                    }
                                 }else{
                                     card.add(new CardBuilder()
                                             .setTheme(Theme.DANGER)
@@ -369,6 +449,225 @@ public class CardTool{
                     }
                     break;
                 //endregion
+                //region 外观
+                case "外观":
+                case "万宝楼":
+                    initSaohua();
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/trade/record?name="+command[1]));
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
+                //region Bark绑定
+                case "Bark":
+                case "消息推送密钥":
+                case "消息推送":
+                    rootNode = mapper.readTree(HttpTool.getData("http://api.muyz.xyz:25555/user/get?KOOKID="+userID));
+                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("KOOKID") != null){
+                        if (guildID == null && rootNode.get("data").get(0).get("barkKey") != null){
+                            //用户已经绑定过了，走用户更新流程
+                            HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&barkKey="+command[1]+"&barkNotify=true");
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.SUCCESS)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("更改成功！将开启推送！"),null,null))
+                                    .build());
+                        }
+                    }else{
+                        //用户未绑定，走用户绑定流程
+                        HttpTool.getData("http://api.muyz.xyz:25555/user/add?KOOKID="+userID+"&barkKey="+command[1]);
+                        HttpTool.getData("http://api.muyz.xyz:25555/user/update?KOOKID="+userID+"&barkNotify=true");
+                        card.add(new CardBuilder()
+                                .setTheme(Theme.SUCCESS)
+                                .setSize(Size.LG)
+                                .addModule(new SectionModule(new PlainTextElement("绑定成功！默认将开启推送！"),null,null))
+                                .build());
+                    }
+
+                    break;
+                //endregion
+                //region 奇遇
+                case "奇遇":
+                    initSaohua();
+                    if (command.length>=3){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/luck/adventure?server="+command[1]+"&name="+command[2]+"&filter=1"));
+                    }else{
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/luck/adventure?server="+server+"&name="+command[1]+"&filter=1"));
+                    }
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                break;
+                //endregion
+                //region JJC战绩
+                case "名剑":
+                case "战绩":
+                case "JJC":
+                    initSaohua();
+                    if (command.length >= 4){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/match/recent?server="+command[1]+"&name="+command[2]+"&robot=剑三咕咕"+"&mode="+command[3]));
+                    }else if (command.length <4){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/match/recent?server="+server+"&name="+command[1]+"&mode="+command[2]));
+                    }
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
+                //region 金价
+                case "金价":
+                    initSaohua();
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/trade/demon?server="+command[1]));
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
+                //region 团队招募
+                case "招募":
+                case "团队招募":
+                    initSaohua();
+                    if (command.length>=3){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+command[1]+"&keyword="+command[2]));
+                    }else{
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+command[1]));
+                        if (rootNode.get("code").asInt() != 200){
+                            rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+server+"&keyword="+command[1]));
+                        }
+                    }
+                    if (command.length >= 4){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/match/recent?server="+command[1]+"&name="+command[2]+"&robot=剑三咕咕"+"&mode="+command[3]));
+                    }else if (command.length <4){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/match/recent?server="+server+"&name="+command[1]+"&mode="+command[2]));
+                    }
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
+                //region 装备查询
+                case "查询":
+                    initSaohua();
+                    if (command.length>=3){
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/role/attribute?server="+command[1]+"&name="+command[2]));
+                    }else{
+                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/role/attribute?server="+server+"&name="+command[1]));
+                    }
+                    switch (rootNode.get("code").asInt()){
+                        case 200:
+                            dataNode = rootNode.path("data");
+                            imagesList.add(new ImageElement(dataNode.get("url").asText(),"剑三咕咕",false));
+                            card.add(new CardBuilder()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(new ImageGroupModule(imagesList))
+                                    .newCard()
+                                    .setTheme(Theme.NONE)
+                                    .setSize(Size.LG)
+                                    .addModule(context)
+                                    .build());
+                            break;
+                        default:
+                            cb = new CardBuilder()
+                                    .setTheme(Theme.DANGER)
+                                    .setSize(Size.LG)
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                            break;
+                    }
+                    break;
+                //endregion
+
             }
         }catch (Exception e){
             e.printStackTrace();
