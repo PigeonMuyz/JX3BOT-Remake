@@ -1,5 +1,8 @@
 package io.github.pigeonmuyz.jxremake.event;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pigeonmuyz.jxremake.tools.HttpTool;
 import snw.jkook.JKook;
 import snw.jkook.entity.User;
 import snw.jkook.entity.channel.TextChannel;
@@ -30,7 +33,6 @@ public class MessageEvent implements Listener {
 
     @EventHandler
     public void channelMessage(ChannelMessageEvent cme){
-        System.out.println("1");
         String[] commands = cme.getMessage().getComponent().toString().split(" ");
         if (commands.length >= 2 && commands[0].equalsIgnoreCase(".send")&& cme.getMessage().getSender().getId().equals("1787060816")){
             switch (commands[1]){
@@ -41,8 +43,6 @@ public class MessageEvent implements Listener {
                 case "用户":
                     User user = JKook.getHttpAPI().getUser(commands[2]);
                     user.sendPrivateMessage(commands[3]);
-                    break;
-                case "全部订阅者":
                     break;
             }
         }
@@ -76,7 +76,6 @@ public class MessageEvent implements Listener {
                   则进入该方法体
                  */
             cardMessage = CardTool.singleCommand(cme.getMessage().getComponent().toString(),cme.getMessage().getSender().getId(),cme.getChannel().getId(),server);
-            System.out.println("111");
             for (MultipleCardComponent card:
                     cardMessage) {
                 cme.getMessage().sendToSource(card);
