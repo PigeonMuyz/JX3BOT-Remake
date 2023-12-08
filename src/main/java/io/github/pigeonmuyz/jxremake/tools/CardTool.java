@@ -245,16 +245,83 @@ public class CardTool{
                     }
                     break;
                 //endregion
-                //TODO: 日志未实现
+                //TODO: 临时抽调
                 //region 更新日志
                 case "日志":
                 case "更新日志":
-
+                    initSaohua();
+                    card.add(new CardBuilder()
+                            .setTheme(Theme.PRIMARY)
+                            .setSize(Size.LG)
+                            .addModule(new HeaderModule(new PlainTextElement("剑三鸽鸽Re 1.0 （开发版本号：8）")))
+                            .addModule(new SectionModule(new PlainTextElement("1. 修复了部分指令反馈错误的问题！！"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("2. 优化了部分指令反馈排版问题！！"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("3. 增加了魔盒文章查询！（仅支持工具，相关副本和职业攻略帖子）"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("4. 终于增加了交易行价格！！！（仅支持工具，相关副本和职业攻略帖子）"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("5. I人拯救计划（第二次重构版的机器人）正在进行中！可以密聊作者获取体验资格"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("6. I人拯救计划将附带独一无二的iPhone通知推送！"), null, null))
+                            .newCard()
+                            .setTheme(Theme.NONE)
+                            .setSize(Size.LG)
+                            .addModule(context)
+                            .build());
                     break;
                 //endregion
-                //TODO: 帮助未实现
+                //TODO: 临时借用
                 //region 帮助
-
+                case "帮助":
+                case "功能":
+                case "指令":
+                    initSaohua();
+                    card.add(new CardBuilder()
+                            .setTheme(Theme.INFO)
+                            .setSize(Size.LG)
+                            .addModule(new HeaderModule(new PlainTextElement("通用类", false)))
+                            .addModule(DividerModule.INSTANCE)
+                            .addModule(new SectionModule(new PlainTextElement("赞助指令：赞助"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("最新公告：公告"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查询日常：日常"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("绑定服务器：绑定 [服务器(必选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("外观价格：外观 [物品名称|物品别名(必选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("角色装备：查询 [服务器(可选)] [玩家名字(必选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查询金价：金价 [服务器(可选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查询奇遇：奇遇 [服务器(可选)] [玩家名字(必选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查询物价：交易行 [服务器(可选)] [物品名字(必选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查询魔盒：魔盒 [关键字（必选）]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("订阅监控：全部订阅[首次订阅将会立即生效]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("团队招募：招募|团队招募 [服务器名（可选）] [副本名(可选，例：西津渡)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查询日志：[日志|更新日志|Version]"), null, null))
+                            .newCard()
+                            .setTheme(Theme.PRIMARY)
+                            .setSize(Size.LG)
+                            .addModule(new HeaderModule(new PlainTextElement("PVE类", false)))
+                            .addModule(DividerModule.INSTANCE)
+                            .addModule(new SectionModule(new PlainTextElement("百战指令：百战"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("查宏指令：宏 [心法名（可以使用别称！！！）]"), null, null))
+                            .newCard()
+                            .setTheme(Theme.DANGER)
+                            .setSize(Size.LG)
+                            .addModule(new HeaderModule(new PlainTextElement("PVP类", false)))
+                            .addModule(DividerModule.INSTANCE)
+                            .addModule(new SectionModule(new PlainTextElement("JJC战绩：JJC｜战绩 [玩家名(必选)] [模式，例如22｜33｜55(必选)] [服务器(可选)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("战争沙盘：沙盘 [服务器(可选)]"), null, null))
+                            .newCard()
+                            .setTheme(Theme.SUCCESS)
+                            .setSize(Size.LG)
+                            .addModule(new HeaderModule(new PlainTextElement("PVX类", false)))
+                            .addModule(DividerModule.INSTANCE)
+                            .addModule(new SectionModule(new PlainTextElement("查询花价：花价 "), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("成就进度：成就 [服务器(机器人绑定过服务器的不需要输入)] [玩家名] [成就名或成就系列(例：沈剑心)]"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("楚天行侠：行侠|楚天社|楚天行侠"), null, null))
+                            .addModule(new SectionModule(new PlainTextElement("宠物游历：游历 [地图(必选)]"), null, null))
+                            .newCard()
+                            .setTheme(Theme.NONE)
+                            .setSize(Size.LG)
+                            .addModule(new ContextModule.Builder().add(new PlainTextElement("剑三鸽鸽 ver.Remake 2.0", false)).build())
+                            .addModule(DividerModule.INSTANCE)
+                            .addModule(context)
+                            .build());
+                    break;
                 //endregion
                 //region 服务器开服查询
                 case "开服":
