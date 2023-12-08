@@ -30,7 +30,8 @@ jobs:
 
     - name: Build JKOOK with Maven
       run: |
-        cd repo
+        git clone https://github.com/SNWCreations/JKook.git
+        cd JKOOK
         mvn install
         cd ..
       
