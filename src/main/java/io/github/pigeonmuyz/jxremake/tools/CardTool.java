@@ -586,12 +586,12 @@ public class CardTool{
                 case "当前状态":
                 case "功能状态":
                 case "服务":
-                    CardBuilder cb = new CardBuilder()
+                    cb = new CardBuilder()
                             .setTheme(Theme.SUCCESS)
                             .setSize(Size.LG);
                     if (guildID != null){
                         rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+guildID));
-                        if (rootNode.get("data").isEmpty() || rootNode.get(0).get("KOOKChannelID") == null) {
+                        if (rootNode.get("data").isEmpty()) {
                             cb.addModule(new SectionModule(new PlainTextElement("当前频道未绑定服务器并开启任何功能"), null, null));
                         }else{
                             cb.addModule(new SectionModule(new PlainTextElement("当前频道功能开启状态："), null, null));
@@ -623,7 +623,7 @@ public class CardTool{
                         }
                     }else{
                         rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
-                        if (rootNode.get("data").isEmpty() || rootNode.get(0).get("KOOKID") == null) {
+                        if (rootNode.get("data").isEmpty()) {
                             cb.addModule(new SectionModule(new PlainTextElement("当前用户未绑定服务器，并开启任何功能"), null, null));
                         }else{
                             cb.addModule(new SectionModule(new PlainTextElement("当前用户功能开启状态："), null, null));
