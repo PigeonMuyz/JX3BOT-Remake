@@ -458,6 +458,9 @@ public class CardTool{
                 case "开启":
                 case "关闭":
                     boolean status;
+                    cb = new CardBuilder()
+                            .setTheme(Theme.SUCCESS)
+                            .setSize(Size.LG);
                     if(command[0].equals("开启")){
                         status = true;
                     }else{
