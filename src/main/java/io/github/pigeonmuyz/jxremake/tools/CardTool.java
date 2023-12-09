@@ -43,13 +43,13 @@ public class CardTool{
         try {
             if (channelID != null){
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+channelID));
-                if (rootNode.get("data")!=null){
+                if (!rootNode.get("data").isEmpty()){
                     dataNode = rootNode.get("data");
                     server = dataNode.get("server").asText();
                 }
             }else{
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
-                if (rootNode.get("data")!=null){
+                if (!rootNode.get("data").isEmpty()){
                     dataNode = rootNode.get("data");
                     server = dataNode.get("server").asText();
                 }
@@ -410,13 +410,16 @@ public class CardTool{
         try{
             if (guildID != null){
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKChannelID="+guildID));
-                if (rootNode.get("data")!=null){
+                if (!rootNode.get("data").isEmpty()){
                     dataNode = rootNode.get("data");
+                    System.out.println(guildID);
+                    System.out.println(rootNode);
+                    System.out.println(dataNode);
                     server = dataNode.get("server").asText();
                 }
             }else{
                 rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
-                if (rootNode.get("data")!=null){
+                if (!rootNode.get("data").isEmpty()){
                     dataNode = rootNode.get("data");
                     server = dataNode.get("server").asText();
                 }

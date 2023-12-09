@@ -60,7 +60,7 @@ public class MessageEvent implements Listener {
 //                cme.getMessage().reply("如果没有看到报错的消息就是绑定成功了！！");
 //                cme.getMessage().sendToSource("绑定的提示消息被飞龙的臭鸽子吃了！");
 //            }
-            cardMessage = CardTool.multiCommand(cme.getMessage().getComponent().toString().split(" "),cme.getMessage().getSender().getId(),cme.getChannel().getGuild().getId(),server);
+            cardMessage = CardTool.multiCommand(cme.getMessage().getComponent().toString().split(" "),cme.getMessage().getSender().getId(),cme.getChannel().getId(),server);
             if (cardMessage.isEmpty()){
                 return;
             }
