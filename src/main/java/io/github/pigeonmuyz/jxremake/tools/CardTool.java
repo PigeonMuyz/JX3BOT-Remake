@@ -792,11 +792,6 @@ public class CardTool{
                             rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+server+"&keyword="+command[1]));
                         }
                     }
-                    if (command.length >= 4){
-                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/match/recent?server="+command[1]+"&name="+command[2]+"&robot=剑三咕咕"+"&mode="+command[3]));
-                    }else if (command.length <4){
-                        rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/match/recent?server="+server+"&name="+command[1]+"&mode="+command[2]));
-                    }
                     switch (rootNode.get("code").asInt()){
                         case 200:
                             dataNode = rootNode.path("data");
@@ -1063,15 +1058,16 @@ public class CardTool{
                                     .build());
                             break;
                         default:
-                            cb = new CardBuilder()
+                            card.add(new CardBuilder()
                                     .setTheme(Theme.DANGER)
                                     .setSize(Size.LG)
-                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null));
+                                    .addModule(new SectionModule(new PlainTextElement("服务器响应异常，请联系管理或者核对参数后再次重试"),null,null))
+                                    .build());
                             break;
                     }
                     break;
                 //endregion
-
+                //TODO: 情缘绑定（拿ID捏）
             }
             imagesList.clear();
         }catch (Exception e){
