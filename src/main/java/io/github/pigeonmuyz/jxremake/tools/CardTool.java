@@ -39,7 +39,19 @@ public class CardTool{
      */
     static List<MultipleCardComponent> card = new ArrayList<>();
     public static List<MultipleCardComponent> singleCommand(String command, String userID, String channelID, String server) {
+
         try {
+            if (channelID != null){
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555//user/get?KOOKChannelID="+channelID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }else{
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555//user/get?KOOKID="+userID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }
             switch(command){
                 //region 日常
                 case "日常":
@@ -150,7 +162,7 @@ public class CardTool{
                 case "招募":
                 case "团队招募":
                     initSaohua();
-                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/api/teamactivity?server="+server));
+                    rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/image/api/member/recruit?server="+server));
                     System.out.println(rootNode.toString());
                     switch (rootNode.get("code").asInt()){
                         case 200:
@@ -394,6 +406,17 @@ public class CardTool{
 
     public static List<MultipleCardComponent> multiCommand(String[] command,String userID,String guildID,String server) {
         try{
+            if (guildID != null){
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555//user/get?KOOKChannelID="+guildID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }else{
+                rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555//user/get?KOOKID="+userID));
+                if (rootNode.get("data")!=null){
+                    server = rootNode.get("data").get(0).get("server").asText();
+                }
+            }
             switch (command[0]){
                 //region 绑定服务器
                 case "绑定":
@@ -408,8 +431,8 @@ public class CardTool{
                     }
 
                     rootNode = mapper.readTree(HttpTool.getData("http://localhost:25555/user/get?KOOKID="+userID));
-                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data").get(0).get("KOOKID") != null){
-                        if (guildID == null && rootNode.get("data").get(0).get("server") != null){
+                    if (rootNode.get("code").asInt() == 200 && rootNode.get("data") != null){
+                        if (guildID == null && rootNode.get("data").get(0).get("server").asText() != null){
                             //用户已经绑定过了，走用户更新流程
                             HttpTool.getData("http://localhost:25555/user/update?KOOKID="+userID+"&server="+command[1]);
                         }
