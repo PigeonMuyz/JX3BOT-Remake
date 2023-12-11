@@ -132,21 +132,24 @@ public class WebSocketUtils implements WebSocket.Listener {
         List<String> deleteUserList = new ArrayList<>();
         switch (code){
             case 2001:
-                if (dataNode.get("status").asInt() == 1 && dataNode.get("server").asText().equals("飞龙在天")){
+                if(dataNode.get("server").asText().equals("飞龙在天")){
+                    if (dataNode.get("status").asInt() == 1){
                     HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s",code,"开服辣！","快去清cd辣！"));
                     mcc = new CardBuilder()
                             .setTheme(Theme.SUCCESS)
                             .setSize(Size.LG)
                             .addModule(new SectionModule(new PlainTextElement("游戏现在开服了！！！"),null,null))
                             .build();
-                }else{
-                    HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s",code,"开始维护了！","还是继续睡大觉吧！"));
-                    mcc = new CardBuilder()
-                            .setTheme(Theme.WARNING)
-                            .setSize(Size.LG)
-                            .addModule(new SectionModule(new PlainTextElement("游戏现在开始维护了捏"),null,null))
-                            .build();
+                    }else{
+                        HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s",code,"开始维护了！","还是继续睡大觉吧！"));
+                        mcc = new CardBuilder()
+                                .setTheme(Theme.WARNING)
+                                .setSize(Size.LG)
+                                .addModule(new SectionModule(new PlainTextElement("游戏现在开始维护了捏"),null,null))
+                                .build();
+                    }
                 }
+                
                 break;
             case 2002:
                 HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s&url=%s",code,dataNode.get("type"),dataNode.get("title").asText(),dataNode.get("url").asText()));
