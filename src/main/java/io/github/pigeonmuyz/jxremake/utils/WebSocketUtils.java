@@ -152,7 +152,7 @@ public class WebSocketUtils implements WebSocket.Listener {
                 
                 break;
             case 2002:
-                HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s&url=%s",code,dataNode.get("type"),dataNode.get("title").asText(),dataNode.get("url").asText()));
+                HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s&url=%s",code,"【剑三鸽鸽】："+dataNode.get("type").asText(),dataNode.get("title").asText(),dataNode.get("url").asText()));
                 mcc = new CardBuilder()
                         .setTheme(Theme.WARNING)
                         .setSize(Size.LG)
@@ -162,7 +162,7 @@ public class WebSocketUtils implements WebSocket.Listener {
                         .build();
                 break;
             case 2003:
-                HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s",code,"有新版本！版本号："+dataNode.get("new_version").asText(),"补丁大小："+dataNode.get("package_size")));
+                HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s",code,"有新版本！版本号："+dataNode.get("new_version").asText(),"补丁大小："+dataNode.get("package_size").asText()));
                 mcc = new CardBuilder()
                         .setTheme(Theme.WARNING)
                         .setSize(Size.LG)
@@ -173,7 +173,7 @@ public class WebSocketUtils implements WebSocket.Listener {
                         .build();
                 break;
             case 2004:
-                HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s&url=%s",code,dataNode.get("title").asText()+"吧","来自 "+dataNode.get("name"),dataNode.get("url").asText()));
+                HttpTool.get(String.format("http://api.muyz.xyz:25555/user/bark?code=%s&title=%s&body=%s&url=%s",code,dataNode.get("title").asText(),"来自 "+dataNode.get("name").asText()+"吧",dataNode.get("url").asText()));
                 mcc = new CardBuilder()
                         .setTheme(Theme.WARNING)
                         .setSize(Size.LG)
